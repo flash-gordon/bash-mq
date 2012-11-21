@@ -6,7 +6,7 @@
         subscribe_str = ("SUBSCRIBE\ndestination:" queue "\nactivemq.prefetchSize:1\nack:client\n\n")
 
         #CONNECT and SUBSCRIBE to "queue"
-        print "CONNECT\n\n"
+        print "CONNECT\nlogin:"mylogin"\npasscode:"mypass"\n\n"
         print subscribe_str
         fflush()
     }

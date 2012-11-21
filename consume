@@ -32,5 +32,5 @@ then
     usage
 fi
 
-socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign queue=$MQQ -f ./stomp-parser.awk"
+socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign queue=$MQQ --assign mylogin=$LOGIN --assign mypass=$PASS -f ./stomp-parser.awk"
 
