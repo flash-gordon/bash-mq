@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+MQHOST=
+MQPORT=
+MQQ=
+LOGIN=
+PASS=
+
+usage() {
+cat<<EOF
+    usage : $0 -h hostname -p port -q queuename [-U user -P password]
+EOF
+exit 1
+}
+
+while getopts "h:p:q:U:P:" opt; do
+    case $opt in
+        h) MQHOST="$OPTARG";;
+        p) MQPORT="$OPTARG";;
+        q) MQQ="$OPTARG";;
+        U) LOGIN="$OPTARG";;
+        P) PASS="$OPTARG";;
+        \:) echo "Option -$opt requires an argument."; exit 1;;
+        \?) echo "Invalid option: -$OPTARG"; exit 1;;
+    esac
+done
+
+if [[ -z $MQHOST ]] || [[ -z $MQPORT ]] || [[ -z $MQQ ]]
+then
+    usage
+fi
+
+
+(
+  echo -ne 'CONNECT\n\n\0'
+  echo -ne "SEND\ndestination:$MQQ\n"
+  if [[ -n $LOGIN ]]; then
+      echo -ne "login:$LOGIN\n"
+  fi
+  if [[ -n $PASS ]]; then
+      echo -ne "passcode:$PASS\n"
+  fi
+  echo -ne "\n"
+  cat
+  echo -ne "\0"
+  echo -ne "DISCONNECT\n\n\0"
+) | nc $MQHOST $MQPORT

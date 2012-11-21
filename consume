@@ -1,0 +1,36 @@
+#!/bin/bash
+
+MQHOST=
+MQPORT=
+MQQ=
+LOGIN=
+PASS=
+HANDLER=
+
+usage() {
+cat<<EOF
+    usage : $0 -h hostname -p port -q queuename -c consumerscript [-U user -P password]
+EOF
+exit 1
+}
+
+while getopts "h:p:q:U:P:c:" opt; do
+    case $opt in
+        h) MQHOST="$OPTARG";;
+        p) MQPORT="$OPTARG";;
+        q) MQQ="$OPTARG";;
+        U) LOGIN="$OPTARG";;
+        P) PASS="$OPTARG";;
+        c) HANDLER="$OPTARG";;
+        \:) echo "Option -$opt requires an argument."; exit 1;;
+        \?) echo "Invalid option: -$OPTARG"; exit 1;;
+    esac
+done
+
+if [[ -z $MQHOST ]] || [[ -z $MQPORT ]] || [[ -z $MQQ ]]
+then
+    usage
+fi
+
+socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign queue=$MQQ -f ./stomp-parser.awk"
+
