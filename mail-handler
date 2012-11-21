@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+cat | mail -s "MQ message!" your@mail.here
