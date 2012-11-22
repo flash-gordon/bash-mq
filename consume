@@ -20,7 +20,7 @@ HANDLER_OPTION=
 
 # Print usage and exit
 usage() {
-    echo "usage : $0 -h hostname -p port -q queuename -c consumerscript [-U user -P password]"
+    echo "usage : $0 -h hostname -p port -q queuename -c consumerscript [-U user -P password -o consumerscript option]"
     exit 1
 }
 
