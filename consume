@@ -16,6 +16,7 @@ MQQ=
 LOGIN=
 PASS=
 HANDLER=
+HANDLER_OPTION=
 
 # Print usage and exit
 usage() {
@@ -24,7 +25,7 @@ usage() {
 }
 
 # Retrieve args and assign to variables
-while getopts "h:p:q:U:P:c:" opt; do
+while getopts "h:p:q:U:P:c:o:" opt; do
     case $opt in
         h) MQHOST="$OPTARG";;
         p) MQPORT="$OPTARG";;
@@ -32,6 +33,7 @@ while getopts "h:p:q:U:P:c:" opt; do
         U) LOGIN="$OPTARG";;
         P) PASS="$OPTARG";;
         c) HANDLER="$OPTARG";;
+        o) HANDLER_OPTION=$OPTARG;;
         \:) echo "Option -$opt requires an argument."; exit 1;;
         \?) echo "Invalid option: -$OPTARG"; exit 1;;
     esac
@@ -45,7 +47,7 @@ then
 fi
 
 # consume message using socat ( http://www.dest-unreach.org/socat/ )
-socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign queue=$MQQ --assign mylogin=$LOGIN --assign mypass=$PASS -f ./stomp-parser.awk"
+socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign usercmdoption=$HANDLER_OPTION --assign queue=$MQQ --assign mylogin=$LOGIN --assign mypass=$PASS -f ./stomp-parser.awk"
 
 # KTHXBYE
 exit 0

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-cat | mail -s "MQ message!" your@mail.here
+# use consumer with -o your@mail.here
+cat | mail -s "MQ message!" $1

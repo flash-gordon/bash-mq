@@ -25,7 +25,7 @@
         body = extract_body($0)
 
         if (id != "") {
-            cmd = ( usercmd " >&2")
+            cmd = ( usercmd " "usercmdoption " >&2")
             print body | cmd;
             r = close(cmd);
 
