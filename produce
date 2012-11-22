@@ -56,7 +56,8 @@ fi
   cat
   echo -ne "\0"
   echo -ne "DISCONNECT\n\n\0"
-) | nc $MQHOST $MQPORT
+#) | nc $MQHOST $MQPORT
+) | socat -u STDIN tcp4:$MQHOST:$MQPORT 
 
 # KTHXBYE
 exit 0
