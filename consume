@@ -47,6 +47,7 @@ then
 fi
 
 # consume message using socat ( http://www.dest-unreach.org/socat/ )
+# add -v option for debug
 socat tcp4:$MQHOST:$MQPORT SYSTEM:"awk --assign usercmd=$HANDLER --assign usercmdoption=$HANDLER_OPTION --assign queue=$MQQ --assign mylogin=$LOGIN --assign mypass=$PASS -f ./stomp-parser.awk"
 
 # KTHXBYE

@@ -1,4 +1,3 @@
-#!/usr/bin/env awk
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -34,7 +33,7 @@
             } else {
                 print ("UNSUBSCRIBE\ndestination:" queue "\n\n")
                 system("sleep 1")
-                print subscribe_str          
+                print subscribe_str       
             }
             fflush()
         }
@@ -43,6 +42,9 @@
     function extract_msgid(msg) {
         match(msg, "message-id:[[:graph:]]*\n", a)
         return a[0]
+        #if(match(msg,"message-id:[[:graph:]]*\n")) {
+        #    return substr(msg,RSTART,RLENGTH)
+        #}
     }
 
     function extract_body(msg) {

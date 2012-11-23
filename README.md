@@ -13,6 +13,6 @@ Inspired from squawk ( http://www.nobugs.org/blog/archives/2008/05/11/squawk-sim
 
 *./consume -h 127.0.0.1 -p 61613 -q fooqueue -c ./handler*
 
-**TODO**
+**NOTE**
 
-* Remove gawk (GNU awk) specific function
+*it only works with GNU awk because other awk version can't handle \0 as Record Separator :(
