@@ -13,4 +13,6 @@ Inspired from squawk ( http://www.nobugs.org/blog/archives/2008/05/11/squawk-sim
 
 *./consume -h 127.0.0.1 -p 61613 -q fooqueue -c ./handler*
 
+**TODO**
 
+* Remove gawk (GNU awk) specific function
