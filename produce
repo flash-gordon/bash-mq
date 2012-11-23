@@ -15,20 +15,23 @@ MQPORT=
 MQQ=
 LOGIN=
 PASS=
+PERSISTENT="false"
 
 # Display usage and exit
 usage() {
-    echo "usage : $0 -h hostname -p port -q queuename [-U user -P password]"
+    echo "usage : $0 -h hostname -p port -q queuename [-U user -P passwordi -x ]"
+    echo "  -x set persistent to true (default is false)"
 exit 1
 }
 
-while getopts "h:p:q:U:P:" opt; do
+while getopts "h:p:q:U:P:x" opt; do
     case $opt in
         h) MQHOST="$OPTARG";;
         p) MQPORT="$OPTARG";;
         q) MQQ="$OPTARG";;
         U) LOGIN="$OPTARG";;
         P) PASS="$OPTARG";;
+        x) PERSISTENT="true";;
         \:) echo "Option -$opt requires an argument."; exit 1;;
         \?) echo "Invalid option: -$OPTARG"; exit 1;;
     esac
@@ -52,12 +55,13 @@ fi
   fi
   echo -ne "\n\n\0"
   echo -ne "SEND\ndestination:$MQQ\n"
+  echo -ne "persistent:$PERSISTENT\n"
   echo -ne "\n"
   cat
   echo -ne "\0"
   echo -ne "DISCONNECT\n\n\0"
-#) | nc $MQHOST $MQPORT
 ) | socat -u STDIN tcp4:$MQHOST:$MQPORT 
+#) | socat -v - tcp4:$MQHOST:$MQPORT # for debug purpose
 
 # KTHXBYE
 exit 0
